@@ -72,6 +72,7 @@ class CloudflareStatisticsServiceImpl (
             .variable("host", host)
             .retrieve("viewer")
             .toEntity(CloudflareViewer::class.java)
+            .subscribeOn(reactor.core.scheduler.Schedulers.boundedElastic())
             .block()
             ?.zones?.firstOrNull()?.httpRequestsAdaptiveGroups ?: emptyList()
     }

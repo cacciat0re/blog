@@ -84,4 +84,4 @@ application:
     token: ${CLOUDFLARE_TOKEN}
 
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${SERVER_PORT:8083}

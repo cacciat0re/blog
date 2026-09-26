@@ -1,3 +1,7 @@
+1.2.3
+1. change BaseEntity timestamp to Instant class
+2. make reactor netty resolver to refresh every time
+
 1.2.2
 1. remove static resource file config
 2. fix site statistics fetch callback method and date

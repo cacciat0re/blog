@@ -1,7 +1,7 @@
 package cn.arorms.blog.common.responses
 
 import cn.arorms.blog.common.enums.UserRole
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
  * Data Transfer Object for User
@@ -15,5 +15,5 @@ data class UserVo(
     val avatar: String?,
     val role: UserRole,
     val isEnabled: Boolean,
-    val createdAt: LocalDateTime,
+    val createdAt: Instant,
 )

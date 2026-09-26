@@ -2,8 +2,6 @@ package cn.arorms.blog.app.controllers.admin;
 
 import cn.arorms.blog.app.entities.Article
 import cn.arorms.blog.app.services.ArticleService
-import cn.arorms.blog.app.services.ArticleTranslationService
-import cn.arorms.blog.common.enums.Language
 import cn.arorms.blog.common.requests.ArticleQueryRequest
 import cn.arorms.blog.common.requests.ArticleUpsertRequest
 import cn.arorms.blog.common.responses.ArticleSummaryVo

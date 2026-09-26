@@ -49,7 +49,7 @@ export const ArticleDetailPage: React.FC = () => {
           {article.isAiTranslated && (
             <div className="mb-4 px-4 py-3 bg-blue-50 dark:bg-blue-950 dark:bg-opacity-30 border border-blue-200 dark:border-blue-800">
               <p className="text-sm text-blue-700 dark:text-blue-300 font-mono">
-                {language === 'ZH' ? '本文由 AI 翻译' : 'This article was translated by AI for reference only'}
+                {language === 'ZH' ? '本文由 AI 翻译仅供参考' : 'This article was translated by AI for reference only'}
               </p>
             </div>
           )}

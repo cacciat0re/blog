@@ -26,6 +26,7 @@ build-deploy:
 
     # Install service and nginx conf
     - sudo cp etc/blog-nginx-public.conf /etc/nginx/sites-available/blog.conf
+#    - sudo ln -s /etc/nginx/sites-available/blog.conf /etc/nginx/sites-enabled/blog.conf
     - sudo cp etc/blog-spring.service /etc/systemd/system/blog-spring.service
     - sudo systemctl daemon-reload
 #    - cp etc/blog-spring.env

@@ -6,13 +6,13 @@ package cn.arorms.blog.common.responses
  * @version 1.1.2 2026-09-01
  */
 import cn.arorms.blog.common.enums.Language
-import java.time.LocalDateTime
+import java.time.Instant
 
 data class ArticleVo(
     val id: Long,
     val slug: String,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime,
+    val createdAt: Instant,
+    val updatedAt: Instant,
 //    val author: UserVo,
     val isAiTranslated: Boolean,
     val title: String,

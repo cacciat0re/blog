@@ -1,6 +1,7 @@
 package cn.arorms.blog.app.config
 
 import io.netty.channel.ChannelOption
+import io.netty.resolver.DefaultAddressResolverGroup
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,7 +24,8 @@ class GraphQlConfig (
     @Bean
     fun cloudflareClient(): HttpGraphQlClient {
         val httpClient = HttpClient.create()
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10_000)
+            .resolver(DefaultAddressResolverGroup.INSTANCE)
+            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 15_000)
             .responseTimeout(Duration.ofSeconds(30))
 
         val webClient = WebClient.builder()

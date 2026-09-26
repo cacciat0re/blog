@@ -1,7 +1,7 @@
 package cn.arorms.blog.common.responses
 
 import cn.arorms.blog.common.enums.ArticleStatus
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
  * Unified DTO for article list views, with resolved language-specific fields
@@ -14,8 +14,8 @@ data class ArticleSummaryVo(
     val title: String,
     val summary: String?,
     val status: ArticleStatus?,
-    val createdAt: LocalDateTime?,
-    val updatedAt: LocalDateTime?,
+    val createdAt: Instant?,
+    val updatedAt: Instant?,
     val category: CategoryVo?,
     val tags: List<TagVo>?
 )
