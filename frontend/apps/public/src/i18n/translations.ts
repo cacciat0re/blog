@@ -4,7 +4,7 @@ export const en = {
   footer: {
     brandDescription: 'A technical blog exploring software architecture, distributed systems, and the art of clean code.',
     navigation: 'NAVIGATION', connect: 'CONNECT', copyright: 'ALL RIGHTS RESERVED.',
-    builtWith: 'BUILT WITH REACT + SPRING BOOT', github: 'GitHub', x: 'X', email: 'Email',
+    sourceCode: 'Code Repository', github: 'GitHub', x: 'X', email: 'Email',
   },
   home: {
     systemInit: 'SYSTEM.INIT()',
@@ -40,7 +40,7 @@ export const zh = {
   footer: {
     brandDescription: '探讨软件架构、分布式系统与优雅代码的艺术和技术博客。',
     navigation: '导航', connect: '联系', copyright: '版权所有。',
-    builtWith: '构建于 React + Spring Boot', github: 'GitHub', x: 'X', email: '邮箱',
+    sourceCode: '源码地址', github: 'GitHub', x: 'X', email: '邮箱',
   },
   home: {
     systemInit: '系统初始化',
@@ -62,7 +62,7 @@ export const zh = {
   archive: { archive: '归档', noData: '暂无归档数据', uncategorized: '未分类' },
   about: {
     about: '关于',
-    description: '这是一个使用 React、TypeScript、Tailwind CSS 和 Spring Boot 构建的技术博客。',
+    description: '2023 年开始运营个人网站，',
   },
   '404': { title: '404', subtitle: '页面未找到', goHome: '返回首页' },
   language: { zh: '中文', en: 'English', switchToZh: '切换到中文', switchToEn: 'Switch to English' },

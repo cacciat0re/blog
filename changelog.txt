@@ -1,3 +1,8 @@
+1.2.4
+1. add open source license
+2. refactor footer document
+3. improve the retry times and connection duration
+
 1.2.3
 1. change BaseEntity timestamp to Instant class
 2. make reactor netty resolver to refresh every time

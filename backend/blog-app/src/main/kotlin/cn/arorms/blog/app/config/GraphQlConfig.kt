@@ -1,6 +1,7 @@
 package cn.arorms.blog.app.config
 
 import io.netty.channel.ChannelOption
+import io.netty.handler.ssl.SslContextBuilder
 import io.netty.resolver.DefaultAddressResolverGroup
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -26,6 +27,7 @@ class GraphQlConfig (
         val httpClient = HttpClient.create()
             .resolver(DefaultAddressResolverGroup.INSTANCE)
             .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 15_000)
+            .secure { it.sslContext(SslContextBuilder.forClient().build()).handshakeTimeout(Duration.ofSeconds(30)) }
             .responseTimeout(Duration.ofSeconds(30))
 
         val webClient = WebClient.builder()

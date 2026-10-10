@@ -11,10 +11,13 @@ import cn.arorms.blog.common.responses.AdaptiveGroup
 import cn.arorms.blog.common.responses.CloudflareViewer
 import cn.arorms.blog.common.responses.CountryTrafficMap
 import io.github.resilience4j.retry.annotation.Retry
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.graphql.client.HttpGraphQlClient
 import org.springframework.stereotype.Service
+import org.springframework.transaction.support.TransactionTemplate
 import tools.jackson.module.kotlin.jacksonObjectMapper
+import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -29,8 +32,11 @@ class CloudflareStatisticsServiceImpl (
     private val cloudflareClient: HttpGraphQlClient,
     private val countryTrafficRepository: CountryTrafficRepository,
     private val outboundRequestRepository: OutboundRequestRepository,
+    private val transactionTemplate: TransactionTemplate,
     @Value($$"${application.cloudflare.zone-id}") private val zoneId: String
 ) : CloudflareStatisticsService {
+    private val log = LoggerFactory.getLogger(javaClass)
+
     /**
      * Get aggregated country traffic map
      */
@@ -73,7 +79,7 @@ class CloudflareStatisticsServiceImpl (
             .retrieve("viewer")
             .toEntity(CloudflareViewer::class.java)
             .subscribeOn(reactor.core.scheduler.Schedulers.boundedElastic())
-            .block()
+            .block(Duration.ofSeconds(90))
             ?.zones?.firstOrNull()?.httpRequestsAdaptiveGroups ?: emptyList()
     }
 
@@ -92,8 +98,12 @@ class CloudflareStatisticsServiceImpl (
             )
         }
 
+        // Empty response is skipped rather than deleting the existing rows for the date
         if (entities.isNotEmpty()) {
-            countryTrafficRepository.saveAll(entities)
+            transactionTemplate.executeWithoutResult {
+                countryTrafficRepository.deleteByDate(date)
+                countryTrafficRepository.saveAll(entities)
+            }
         }
     }
 
@@ -101,6 +111,7 @@ class CloudflareStatisticsServiceImpl (
     override fun syncStatistics(date: LocalDate) = getHttpRequestsStatisticsByDate(date)
 
     fun reportSyncFailure(date: LocalDate, e: Throwable) {
+        log.error("Cloudflare statistics sync failed for {}", date, e)
         val payload = jacksonObjectMapper().writeValueAsString(date.toString())
         outboundRequestRepository.save(
             OutboundRequest(
