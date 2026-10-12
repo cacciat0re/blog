@@ -10,4 +10,10 @@ interface CloudflareStatisticsService {
     fun getCountryTrafficMap(timeRange: Int): Map<String, Int>
     fun getDateTraffic(from: LocalDate, to: LocalDate): Map<LocalDate, Int>
     fun syncStatistics(date: LocalDate)
+
+    /**
+     * Re-runs the sync for a UTC day with the same retry policy, a failure is thrown instead of recorded
+     * @throws Exception when all attempts fail
+     */
+    fun retrySyncStatistics(date: LocalDate)
 }

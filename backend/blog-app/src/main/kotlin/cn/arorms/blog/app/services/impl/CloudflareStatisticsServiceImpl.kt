@@ -5,10 +5,12 @@ import cn.arorms.blog.app.entities.OutboundRequest
 import cn.arorms.blog.app.repositories.CountryTrafficRepository
 import cn.arorms.blog.app.repositories.OutboundRequestRepository
 import cn.arorms.blog.app.services.CloudflareStatisticsService
+import cn.arorms.blog.common.enums.OutboundTarget
 import cn.arorms.blog.common.enums.ProcessStatus
 import cn.arorms.blog.common.enums.TimeRange
 import cn.arorms.blog.common.responses.AdaptiveGroup
 import cn.arorms.blog.common.responses.CloudflareViewer
+import io.github.resilience4j.retry.RetryRegistry
 import io.github.resilience4j.retry.annotation.Retry
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -32,9 +34,14 @@ class CloudflareStatisticsServiceImpl (
     private val countryTrafficRepository: CountryTrafficRepository,
     private val outboundRequestRepository: OutboundRequestRepository,
     private val transactionTemplate: TransactionTemplate,
+    private val retryRegistry: RetryRegistry,
     @Value($$"${application.cloudflare.zone-id}") private val zoneId: String
 ) : CloudflareStatisticsService {
     private val log = LoggerFactory.getLogger(javaClass)
+
+    companion object {
+        const val RETRY_NAME = "fetchCloudflareStatistics"
+    }
 
     /**
      * Get aggregated country traffic map
@@ -106,14 +113,19 @@ class CloudflareStatisticsServiceImpl (
         }
     }
 
-    @Retry(name = "fetchCloudflareStatistics", fallbackMethod = "reportSyncFailure")
+    @Retry(name = RETRY_NAME, fallbackMethod = "reportSyncFailure")
     override fun syncStatistics(date: LocalDate) = getHttpRequestsStatisticsByDate(date)
+
+    override fun retrySyncStatistics(date: LocalDate) {
+        retryRegistry.retry(RETRY_NAME).executeRunnable { getHttpRequestsStatisticsByDate(date) }
+    }
 
     fun reportSyncFailure(date: LocalDate, e: Throwable) {
         log.error("Cloudflare statistics sync failed for {}", date, e)
         val payload = jacksonObjectMapper().writeValueAsString(date.toString())
         outboundRequestRepository.save(
             OutboundRequest(
+                target = OutboundTarget.CLOUDFLARE_SYNC_STATISTICS,
                 payloadJson = payload,
                 status = ProcessStatus.FAILED,
                 expiresAt = Instant.now().plus(7, ChronoUnit.DAYS),

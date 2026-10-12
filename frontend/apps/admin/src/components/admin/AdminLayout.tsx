@@ -8,6 +8,7 @@ import {
     Tags,
     Users,
     Image,
+    Send,
     LogOut,
     ArrowLeft,
     Search,
@@ -42,7 +43,10 @@ const navGroups = [
     },
     {
         title: 'System',
-        items: [{path: '/admin/users', label: 'Users', icon: Users}],
+        items: [
+            {path: '/admin/users', label: 'Users', icon: Users},
+            {path: '/admin/outbound-requests', label: 'Outbound', icon: Send},
+        ],
     },
 ];
 

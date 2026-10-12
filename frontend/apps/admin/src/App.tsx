@@ -12,6 +12,7 @@ import {AdminCategoriesPage} from './features/categories/AdminCategoriesPage';
 import {AdminTagsPage} from './features/tags/AdminTagsPage';
 import {AdminUsersPage} from './features/users/AdminUsersPage';
 import {AdminPicturesPage} from './features/pictures/AdminPicturesPage';
+import {AdminOutboundRequestsPage} from './features/outbound/AdminOutboundRequestsPage';
 
 const queryClient = new QueryClient({
     defaultOptions: {queries: {staleTime: 5 * 60 * 1000, retry: 1}},
@@ -58,6 +59,11 @@ function App() {
                         <Route
                             path="/admin/pictures"
                             element={<ProtectedRoute><AdminLayout><AdminPicturesPage/></AdminLayout></ProtectedRoute>}
+                        />
+                        <Route
+                            path="/admin/outbound-requests"
+                            element={
+                                <ProtectedRoute><AdminLayout><AdminOutboundRequestsPage/></AdminLayout></ProtectedRoute>}
                         />
                         <Route path="/" element={<Navigate to="/admin" replace/>}/>
                         <Route path="*" element={<Navigate to="/admin" replace/>}/>

@@ -29,6 +29,22 @@ export const UserRole = {
 
 export type UserRole = typeof UserRole[keyof typeof UserRole];
 
+export const ProcessStatus = {
+  PENDING: 'PENDING' as const,
+  PROCESSING: 'PROCESSING' as const,
+  SUCCEEDED: 'SUCCEEDED' as const,
+  FAILED: 'FAILED' as const,
+  DISCARDED: 'DISCARDED' as const,
+};
+
+export type ProcessStatus = typeof ProcessStatus[keyof typeof ProcessStatus];
+
+export const OutboundTarget = {
+  CLOUDFLARE_SYNC_STATISTICS: 'CLOUDFLARE_SYNC_STATISTICS' as const,
+};
+
+export type OutboundTarget = typeof OutboundTarget[keyof typeof OutboundTarget];
+
 // --- Pagination wrapper (mirrors cn.arorms.framework.common.domain.PageResponse) ---
 
 export interface PageResponse<T> {
