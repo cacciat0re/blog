@@ -1,6 +1,6 @@
 package cn.arorms.blog.app.services.impl
 
-import cn.arorms.blog.app.entities.CountryTraffic
+import cn.arorms.blog.app.entities.CloudflareTraffic
 import cn.arorms.blog.app.entities.OutboundRequest
 import cn.arorms.blog.app.repositories.CountryTrafficRepository
 import cn.arorms.blog.app.repositories.OutboundRequestRepository
@@ -9,7 +9,6 @@ import cn.arorms.blog.common.enums.ProcessStatus
 import cn.arorms.blog.common.enums.TimeRange
 import cn.arorms.blog.common.responses.AdaptiveGroup
 import cn.arorms.blog.common.responses.CloudflareViewer
-import cn.arorms.blog.common.responses.CountryTrafficMap
 import io.github.resilience4j.retry.annotation.Retry
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -24,7 +23,7 @@ import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
 
 /**
- * @version 1.2.0 2026-09-08
+ * @version 1.2.4 2026-10-12
  * @since 2026-09-08
  */
 @Service
@@ -40,10 +39,10 @@ class CloudflareStatisticsServiceImpl (
     /**
      * Get aggregated country traffic map
      */
-    override fun getCountryTrafficMap(timeRange: Int): List<CountryTrafficMap> {
+    override fun getCountryTrafficMap(timeRange: Int): Map<String, Int> {
         val range = TimeRange.fromInt(timeRange)
             ?: throw IllegalArgumentException("timeRange must be 1, 7, or 30")
-        return countryTrafficRepository.getAggregatedTrafficMap(range.days)
+        return countryTrafficRepository.getAggregatedCountryTraffic(range.days)
     }
 
     fun getHttpRequestsStatistics(startTime: Instant, endTime: Instant, host: String): List<AdaptiveGroup> {
@@ -90,7 +89,7 @@ class CloudflareStatisticsServiceImpl (
         val groups = getHttpRequestsStatistics(startTime, endTime, "blog.arorms.cn")
 
         val entities = groups.map { group ->
-            CountryTraffic(
+            CloudflareTraffic(
                 date = startTime.atZone(ZoneOffset.UTC).toLocalDate(),
                 countryCode = group.dimensions.clientCountryName ?: "XX",
                 requests = group.count,
@@ -120,5 +119,13 @@ class CloudflareStatisticsServiceImpl (
                 expiresAt = Instant.now().plus(7, ChronoUnit.DAYS),
             )
         )
+    }
+
+    /**
+     * Get daily visits between from and to (both inclusive), keyed by date
+     */
+    override fun getDateTraffic(from: LocalDate, to: LocalDate): Map<LocalDate, Int> {
+        require(!from.isAfter(to)) { "from must not be after to" }
+        return countryTrafficRepository.getAggregatedDateTraffic(from, to)
     }
 }

@@ -72,12 +72,13 @@ export const TrafficMap: React.FC<TrafficMapProps> = ({ className = '' }) => {
   const strokeColor = isDark ? '#2d2d2d' : '#E0E0E0';
 
   const colorScale = (() => {
-    if (!trafficData || trafficData.length === 0) return () => noDataFill;
-    const maxVisits = Math.max(...trafficData.map(d => d.visits));
+    const visitsList = Object.values(trafficData ?? {});
+    if (visitsList.length === 0) return () => noDataFill;
+    const maxVisits = Math.max(...visitsList);
     return scaleLinear<string>().domain([0, maxVisits]).range(isDark ? ['#1a1a1a', '#ffffff'] : ['#F5F5F5', '#000000']);
   })();
 
-  const visitsByCode = new Map(trafficData?.map(d => [d.countryCode, d.visits]) ?? []);
+  const visitsByCode = new Map(Object.entries(trafficData ?? {}));
 
   const projection = geoEquirectangular()
     .scale(dimensions.width / (2 * Math.PI))
@@ -118,7 +119,7 @@ export const TrafficMap: React.FC<TrafficMapProps> = ({ className = '' }) => {
         </p>
         {trafficData && (
           <p className="text-[10px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-            Total: {trafficData.reduce((s, d) => s + d.visits, 0).toLocaleString()}
+            Total: {Object.values(trafficData).reduce((s, v) => s + v, 0).toLocaleString()}
           </p>
         )}
       </div>

@@ -2,6 +2,8 @@
 1. add open source license
 2. refactor footer document
 3. improve the retry times and connection duration
+4. add real visit data in admin dashboard
+5. refactor country traffic response
 
 1.2.3
 1. change BaseEntity timestamp to Instant class

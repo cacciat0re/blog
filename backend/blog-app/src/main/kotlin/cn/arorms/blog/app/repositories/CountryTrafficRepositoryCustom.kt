@@ -1,7 +1,12 @@
 package cn.arorms.blog.app.repositories
 
-import cn.arorms.blog.common.responses.CountryTrafficMap
+import java.time.LocalDate
 
+/**
+ * @version 1.2.4 2026-10-12
+ * @author Sheng
+ */
 interface CountryTrafficRepositoryCustom {
-    fun getAggregatedTrafficMap(timeRange: Int): List<CountryTrafficMap>
+    fun getAggregatedCountryTraffic(timeRange: Int): Map<String, Int>
+    fun getAggregatedDateTraffic(from: LocalDate, to: LocalDate): Map<LocalDate, Int>
 }

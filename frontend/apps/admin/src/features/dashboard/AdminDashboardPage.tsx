@@ -1,10 +1,28 @@
 import {useArticles} from '../../hooks/useArticles';
 import {useCategories} from '../../hooks/useCategories';
+import {useDateTraffic} from '../../hooks/useStatistics';
 import {useTags} from '../../hooks/useTags';
 import {useUsers} from '../../hooks/useUsers';
 import {FileText, FolderTree, Tags, Users, Eye, ArrowUpRight, TrendingUp, PenLine} from 'lucide-react';
+import {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Card} from '@/components/ui/card';
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+const DEFAULT_RANGE_DAYS = 14;
+const dateInputClass = 'rounded-full border border-border bg-background px-2.5 py-1 text-[11px] text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20';
+
+/** yyyy-MM-dd in UTC, matching the backend's UTC daily buckets */
+const toIsoDate = (time: number) => new Date(time).toISOString().slice(0, 10);
+
+/** Every yyyy-MM-dd from `from` to `to`, inclusive */
+const listDays = (from: string, to: string) => {
+    const days: string[] = [];
+    for (let t = Date.parse(from); t <= Date.parse(to); t += DAY_MS) {
+        days.push(toIsoDate(t));
+    }
+    return days;
+};
 
 function StatCard({
                       title,
@@ -42,6 +60,14 @@ export function AdminDashboardPage() {
     const {data: tags} = useTags();
     const {data: users} = useUsers();
 
+    const todayUtc = toIsoDate(Date.now());
+    const [trafficFrom, setTrafficFrom] = useState(() => toIsoDate(Date.parse(todayUtc) - DEFAULT_RANGE_DAYS * DAY_MS));
+    const [trafficTo, setTrafficTo] = useState(() => toIsoDate(Date.parse(todayUtc) - DAY_MS));
+    const {data: dateTraffic} = useDateTraffic(trafficFrom, trafficTo);
+    const trafficDays = trafficFrom && trafficTo && trafficFrom <= trafficTo ? listDays(trafficFrom, trafficTo) : [];
+    const trafficVisits = trafficDays.map((day) => dateTraffic?.[day] ?? 0);
+    const maxTrafficVisits = Math.max(0, ...trafficVisits);
+
     const totalArticles = articlesData?.total || 0;
     const publishedArticles = articlesData?.content.filter((a) => a.status === 'PUBLISHED').length || 0;
     const draftArticles = articlesData?.content.filter((a) => a.status === 'DRAFT').length || 0;
@@ -75,14 +101,25 @@ export function AdminDashboardPage() {
                     <Card className="p-6">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-[13px] font-semibold text-foreground">Analytics</h2>
-                            <span className="text-[11px] text-muted-foreground bg-muted px-2 py-1 rounded-full">Last 30 days</span>
+                            <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                                <input type="date" value={trafficFrom} max={trafficTo}
+                                       onChange={(e) => setTrafficFrom(e.target.value)} className={dateInputClass}/>
+                                <span>→</span>
+                                <input type="date" value={trafficTo} min={trafficFrom} max={todayUtc}
+                                       onChange={(e) => setTrafficTo(e.target.value)} className={dateInputClass}/>
+                            </div>
                         </div>
                         <div className="h-[64px] flex items-end gap-1.5">
-                            {[18, 28, 22, 36, 30, 44, 38, 52, 40, 48, 56, 42].map((h, i) => (
-                                <div key={i}
+                            {trafficDays.map((day, i) => (
+                                <div key={day}
+                                     title={`${day}: ${trafficVisits[i].toLocaleString()} visits`}
                                      className="flex-1 rounded-full bg-gradient-to-t from-primary/15 to-primary"
-                                     style={{height: h}}/>
+                                     style={{height: maxTrafficVisits ? Math.round((trafficVisits[i] / maxTrafficVisits) * 64) : 0}}/>
                             ))}
+                        </div>
+                        <div className="flex justify-between mt-2 text-[11px] text-muted-foreground">
+                            <span>{trafficFrom}</span>
+                            <span>{trafficTo}</span>
                         </div>
 
                         <div className="grid grid-cols-3 gap-3 mt-6 pt-6 border-t border-border">
