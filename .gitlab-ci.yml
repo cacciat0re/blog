@@ -20,12 +20,16 @@ build-deploy:
     - sudo cp blog-app/build/libs/backend.jar /opt/arorms/blog/backend.jar
     - cd ..
 
-    - cd frontend && pnpm install && pnpm --filter @blog/public build
+    - cd frontend && pnpm install
+    - pnpm --filter @blog/public build
     - sudo rsync -az --delete apps/public/dist/ /var/www/arorms/blog/
+    - pnpm --filter @blog/admin build
+    - sudo rsync -az --delete apps/admin/dist/ /var/www/arorms/blog-admin
     - cd ..
 
     # Install service and nginx conf
     - sudo cp etc/blog-nginx-public.conf /etc/nginx/sites-available/blog.conf
+    - sudo cp etc/blog-nginx-admin.conf /etc/nginx/sites-available/blog-admin.conf
 #    - sudo ln -s /etc/nginx/sites-available/blog.conf /etc/nginx/sites-enabled/blog.conf
     - sudo cp etc/blog-spring.service /etc/systemd/system/blog-spring.service
     - sudo systemctl daemon-reload
