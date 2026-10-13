@@ -69,6 +69,38 @@ export const getUserInfo = async (): Promise<{ username: string; email: string }
     }
 };
 
+const ADMIN_ROLE = 'admin';
+
+type AccessTokenClaims = {
+    resource_access?: Record<string, { roles?: string[] }>;
+};
+
+const decodeAccessTokenClaims = (token: string): AccessTokenClaims | null => {
+    try {
+        const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        const bytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+        return JSON.parse(new TextDecoder().decode(bytes));
+    } catch {
+        return null;
+    }
+};
+
+/**
+ * UI-only check, mirrors backend KeycloakAuthenticationConverter: client roles of OAUTH_CLIENT_ID, not realm roles.
+ * Backend @PreAuthorize/hasRole("admin") on /api/admin/** remains the enforcement boundary.
+ */
+export const hasAdminRole = async (): Promise<boolean> => {
+    try {
+        const user = await getUserManager().getUser();
+        if (!user || user.expired) return false;
+        const claims = decodeAccessTokenClaims(user.access_token);
+        const roles = claims?.resource_access?.[import.meta.env.VITE_OAUTH_CLIENT_ID]?.roles;
+        return roles?.includes(ADMIN_ROLE) ?? false;
+    } catch {
+        return false;
+    }
+};
+
 /**
  * Backend admin auth — GET /api/admin/auth/me
  * @see AuthController @RequestMapping("/api/admin/auth") + @GetMapping("/me")

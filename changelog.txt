@@ -1,5 +1,8 @@
+1.2.6
+1. add admin role check at frontend
+
 1.2.5
-1. add admin deploy
+1. add admin deployment
 
 1.2.4
 1. add open source license

@@ -8,17 +8,18 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Table
+import org.hibernate.annotations.ColumnDefault
 import java.time.Instant
 
 /**
- * @version 1.2.4 2026-10-12
+ * @version 1.2.6 2026-10-13
  * @since 2026-09-08
  */
 @Entity @Table(name = "outbound_requests")
 class OutboundRequest(
     // Default backfills rows created before this column, which only ever held the Cloudflare sync
     @Enumerated(EnumType.STRING)
-    @Column(name = "target", columnDefinition = "varchar(64) not null default 'CLOUDFLARE_SYNC_STATISTICS'")
+    @Column(name = "target", length = 64, nullable = false)
     val target: OutboundTarget,
 
     @Column(name = "payload_json")
@@ -29,7 +30,8 @@ class OutboundRequest(
     var status: ProcessStatus,
 
     // Set once by a manual retry, a request can be retried at most once
-    @Column(name = "retried", columnDefinition = "boolean not null default false")
+    @Column(name = "retried", nullable = false)
+    @ColumnDefault("false")
     var retried: Boolean = false,
 
     val expiresAt: Instant? = null,

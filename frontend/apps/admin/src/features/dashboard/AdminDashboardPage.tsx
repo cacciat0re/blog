@@ -3,7 +3,7 @@ import {useCategories} from '../../hooks/useCategories';
 import {useDateTraffic} from '../../hooks/useStatistics';
 import {useTags} from '../../hooks/useTags';
 import {useUsers} from '../../hooks/useUsers';
-import {FileText, FolderTree, Tags, Users, Eye, ArrowUpRight, TrendingUp, PenLine} from 'lucide-react';
+import {FileText, FolderTree, Tags, Users, Eye, ArrowUpRight, PenLine} from 'lucide-react';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Card} from '@/components/ui/card';
@@ -42,10 +42,6 @@ function StatCard({
                     className="w-9 h-9 rounded-xl bg-muted border border-border flex items-center justify-center text-foreground">
                     <Icon size={16}/>
                 </div>
-                <span
-                    className="inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground bg-muted px-2 py-1 rounded-full">
- <TrendingUp size={12}/> Stable
- </span>
             </div>
             <div className="text-[11px] tracking-wide font-medium text-muted-foreground mb-1">{title}</div>
             <div className="text-[28px] font-semibold tracking-tight text-foreground leading-none">{value}</div>

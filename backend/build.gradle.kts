@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "cn.arorms.blog"
-version = "1.2.4"
+version = "1.2.6"
 
 subprojects {
     group = rootProject.group
