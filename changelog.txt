@@ -1,5 +1,6 @@
 1.2.6
 1. add admin role check at frontend
+2. refactor entity count api in admin dashboard
 
 1.2.5
 1. add admin deployment

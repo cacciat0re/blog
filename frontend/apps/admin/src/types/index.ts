@@ -9,3 +9,4 @@ export * from './tag';
 export * from './user';
 export * from './picture';
 export * from './outbound';
+export * from './statistics';

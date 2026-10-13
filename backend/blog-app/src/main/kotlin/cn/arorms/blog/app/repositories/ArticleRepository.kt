@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 
 /**
  * Repository interface for Article entity
- * @version 1.2.0 2026-09-18
+ * @version 1.2.6 2026-10-13
  * @since 2026-07-22
  */
 @Repository
@@ -18,4 +18,5 @@ interface ArticleRepository :
     fun findBySlugAndStatus(slug: String, status: ArticleStatus): Article?
     fun existsBySlug(slug: String): Boolean
     fun existsBySlugAndIdNot(slug: String, id: Long): Boolean
+    fun countByStatus(status: ArticleStatus): Long
 }

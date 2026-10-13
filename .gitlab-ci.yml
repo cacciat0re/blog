@@ -8,7 +8,6 @@ variables:
 cache:
   key:
     files: [frontend/pnpm-lock.yaml]
-  paths: [.pnpm-store, .gradle]
   policy: pull-push
 
 build-deploy:
@@ -33,7 +32,6 @@ build-deploy:
 #    - sudo ln -s /etc/nginx/sites-available/blog.conf /etc/nginx/sites-enabled/blog.conf
     - sudo cp etc/blog-spring.service /etc/systemd/system/blog-spring.service
     - sudo systemctl daemon-reload
-#    - cp etc/blog-spring.env
 
     # Restart service and nginx
     - sudo systemctl restart blog-spring.service

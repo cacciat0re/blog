@@ -1,9 +1,6 @@
 import {useArticles} from '../../hooks/useArticles';
-import {useCategories} from '../../hooks/useCategories';
-import {useDateTraffic} from '../../hooks/useStatistics';
-import {useTags} from '../../hooks/useTags';
-import {useUsers} from '../../hooks/useUsers';
-import {FileText, FolderTree, Tags, Users, Eye, ArrowUpRight, PenLine} from 'lucide-react';
+import {useDateTraffic, useEntityCounts} from '../../hooks/useStatistics';
+import {FileText, FolderTree, Tags, Eye, ArrowUpRight, PenLine, Image as ImageIcon} from 'lucide-react';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Card} from '@/components/ui/card';
@@ -51,10 +48,8 @@ function StatCard({
 }
 
 export function AdminDashboardPage() {
-    const {data: articlesData, isLoading: articlesLoading} = useArticles({page: 0, size: 100});
-    const {data: categories} = useCategories();
-    const {data: tags} = useTags();
-    const {data: users} = useUsers();
+    const {data: articlesData, isLoading: articlesLoading} = useArticles({page: 0, size: 5});
+    const {data: counts} = useEntityCounts();
 
     const todayUtc = toIsoDate(Date.now());
     const [trafficFrom, setTrafficFrom] = useState(() => toIsoDate(Date.parse(todayUtc) - DEFAULT_RANGE_DAYS * DAY_MS));
@@ -63,10 +58,6 @@ export function AdminDashboardPage() {
     const trafficDays = trafficFrom && trafficTo && trafficFrom <= trafficTo ? listDays(trafficFrom, trafficTo) : [];
     const trafficVisits = trafficDays.map((day) => dateTraffic?.[day] ?? 0);
     const maxTrafficVisits = Math.max(0, ...trafficVisits);
-
-    const totalArticles = articlesData?.total || 0;
-    const publishedArticles = articlesData?.content.filter((a) => a.status === 'PUBLISHED').length || 0;
-    const draftArticles = articlesData?.content.filter((a) => a.status === 'DRAFT').length || 0;
 
     return (
         <div className="space-y-6 animate-fade-in">
@@ -85,11 +76,11 @@ export function AdminDashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <StatCard title="Total Articles" value={totalArticles}
-                          sub={`${publishedArticles} published · ${draftArticles} drafts`} icon={FileText}/>
-                <StatCard title="Categories" value={categories?.length || 0} sub="Organized" icon={FolderTree}/>
-                <StatCard title="Tags" value={tags?.length || 0} sub="For discovery" icon={Tags}/>
-                <StatCard title="Users" value={users?.length || 0} sub="Access & roles" icon={Users}/>
+                <StatCard title="Total Articles" value={counts?.totalArticles ?? 0}
+                          sub={`${counts?.publishedArticles ?? 0} published · ${counts?.draftArticles ?? 0} drafts`} icon={FileText}/>
+                <StatCard title="Categories" value={counts?.categories ?? 0} sub="Organized" icon={FolderTree}/>
+                <StatCard title="Tags" value={counts?.tags ?? 0} sub="For discovery" icon={Tags}/>
+                <StatCard title="Pictures" value={counts?.pictures ?? 0} sub="In library" icon={ImageIcon}/>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -121,17 +112,17 @@ export function AdminDashboardPage() {
                         <div className="grid grid-cols-3 gap-3 mt-6 pt-6 border-t border-border">
                             <div className="rounded-xl bg-muted p-3">
                                 <div className="text-[11px] text-muted-foreground">Published</div>
-                                <div className="text-[18px] font-semibold text-foreground">{publishedArticles}</div>
+                                <div className="text-[18px] font-semibold text-foreground">{counts?.publishedArticles ?? 0}</div>
                             </div>
                             <div className="rounded-xl bg-muted p-3">
                                 <div className="text-[11px] text-muted-foreground">Drafts</div>
                                 <div
-                                    className="text-[18px] font-semibold text-amber-600 dark:text-amber-400">{draftArticles}</div>
+                                    className="text-[18px] font-semibold text-amber-600 dark:text-amber-400">{counts?.draftArticles ?? 0}</div>
                             </div>
                             <div className="rounded-xl bg-muted p-3">
                                 <div className="text-[11px] text-muted-foreground">Archived</div>
                                 <div className="text-[18px] font-semibold text-muted-foreground">
-                                    {articlesData?.content.filter((a) => a.status === 'ARCHIVED').length || 0}
+                                    {counts?.archivedArticles ?? 0}
                                 </div>
                             </div>
                         </div>
@@ -206,13 +197,13 @@ export function AdminDashboardPage() {
                                   className="rounded-xl border border-border p-4 hover:bg-muted transition-colors">
                                 <FolderTree size={18} className="text-foreground"/>
                                 <div className="text-[13px] font-medium text-foreground mt-2">Categories</div>
-                                <div className="text-[11px] text-muted-foreground">{categories?.length ?? 0} items</div>
+                                <div className="text-[11px] text-muted-foreground">{counts?.categories ?? 0} items</div>
                             </Link>
                             <Link to="/admin/tags"
                                   className="rounded-xl border border-border p-4 hover:bg-muted transition-colors">
                                 <Tags size={18} className="text-foreground"/>
                                 <div className="text-[13px] font-medium text-foreground mt-2">Tags</div>
-                                <div className="text-[11px] text-muted-foreground">{tags?.length ?? 0} items</div>
+                                <div className="text-[11px] text-muted-foreground">{counts?.tags ?? 0} items</div>
                             </Link>
                         </div>
                     </Card>
