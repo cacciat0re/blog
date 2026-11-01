@@ -1,7 +1,7 @@
 /**
  * Picture types — Vo
- * Mirrors backend PictureVo
- * @see backend/blog-common/src/main/kotlin/cn/arorms/blog/common/responses/PictureVo.kt
+ * Mirrors backend-legacy PictureVo
+ * @see backend-legacy/blog-common/src/main/kotlin/cn/arorms/blog/common/responses/PictureVo.kt
  */
 import type { TagVo } from './tag';
 

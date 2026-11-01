@@ -86,7 +86,7 @@ const decodeAccessTokenClaims = (token: string): AccessTokenClaims | null => {
 };
 
 /**
- * UI-only check, mirrors backend KeycloakAuthenticationConverter: client roles of OAUTH_CLIENT_ID, not realm roles.
+ * UI-only check, mirrors backend-legacy KeycloakAuthenticationConverter: client roles of OAUTH_CLIENT_ID, not realm roles.
  * Backend @PreAuthorize/hasRole("admin") on /api/admin/** remains the enforcement boundary.
  */
 export const hasAdminRole = async (): Promise<boolean> => {

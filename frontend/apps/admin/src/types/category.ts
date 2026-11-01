@@ -1,6 +1,6 @@
 /**
  * Category types — Vo, entity, and mutation requests
- * Mirrors backend common CategoryVo / CategoryUpsertRequest and Category entity
+ * Mirrors backend-legacy common CategoryVo / CategoryUpsertRequest and Category entity
  */
 import type { Language } from './common';
 
@@ -13,7 +13,7 @@ export interface CategoryVo {
   parentId: number | null;
 }
 
-// --- Raw entity (admin, mirrors backend Category entity) ---
+// --- Raw entity (admin, mirrors backend-legacy Category entity) ---
 
 export interface CategoryEntity {
   id: number | null;

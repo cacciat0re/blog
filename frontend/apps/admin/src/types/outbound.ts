@@ -1,7 +1,7 @@
 /**
  * Outbound request types — Vo and query request
- * Mirrors backend common OutboundRequestVo / OutboundRequestQueryRequest
- * @see backend/blog-common/src/main/kotlin/cn/arorms/blog/common/responses/OutboundRequestVo.kt
+ * Mirrors backend-legacy common OutboundRequestVo / OutboundRequestQueryRequest
+ * @see backend-legacy/blog-common/src/main/kotlin/cn/arorms/blog/common/responses/OutboundRequestVo.kt
  */
 import type { OutboundTarget, ProcessStatus } from './common';
 

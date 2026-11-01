@@ -1,6 +1,6 @@
 spring:
   application:
-    name: backend
+    name: backend-legacy
 
   # Database Configuration (credentials from environment variables)
   datasource:

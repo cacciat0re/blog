@@ -1,7 +1,7 @@
 /**
  * Statistics types — Vo
- * Mirrors backend EntityCountVo
- * @see backend/blog-common/src/main/kotlin/cn/arorms/blog/common/responses/EntityCountVo.kt
+ * Mirrors backend-legacy EntityCountVo
+ * @see backend-legacy/blog-common/src/main/kotlin/cn/arorms/blog/common/responses/EntityCountVo.kt
  */
 export interface EntityCountVo {
   totalArticles: number;

@@ -1,6 +1,6 @@
 /**
  * Common enum types and shared infrastructure
- * Mirrors backend common module: enums and framework PageResponse
+ * Mirrors backend-legacy common module: enums and framework PageResponse
  */
 
 // --- Enums as const objects ---

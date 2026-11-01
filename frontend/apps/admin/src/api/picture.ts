@@ -1,6 +1,6 @@
 /**
- * Picture API — aligns with backend PictureAdminController @RequestMapping("/api/admin/pictures")
- * @see backend/blog-app/src/main/kotlin/cn/arorms/blog/app/controllers/admin/PictureAdminController.kt
+ * Picture API — aligns with backend-legacy PictureAdminController @RequestMapping("/api/admin/pictures")
+ * @see backend-legacy/blog-app/src/main/kotlin/cn/arorms/blog/app/controllers/admin/PictureAdminController.kt
  */
 import { get, post, put, del } from './client';
 import type { PictureDTO, PageResponse } from '@/types';

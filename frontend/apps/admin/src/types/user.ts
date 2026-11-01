@@ -1,6 +1,6 @@
 /**
  * User types — Vo
- * Mirrors backend common UserVo
+ * Mirrors backend-legacy common UserVo
  */
 import type { UserRole } from './common';
 

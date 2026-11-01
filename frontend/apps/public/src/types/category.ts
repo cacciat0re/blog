@@ -1,6 +1,6 @@
 /**
  * Category types — Vo and tree node
- * Mirrors backend common CategoryVo / CategoryTreeNode
+ * Mirrors backend-legacy common CategoryVo / CategoryTreeNode
  */
 
 // --- Category Vo (public-facing, flattened) ---

@@ -15,8 +15,8 @@ build-deploy:
   tags: [deploy]
   script:
     # Compile
-    - cd backend && ./gradlew :blog-app:bootJar
-    - sudo cp blog-app/build/libs/backend.jar /opt/arorms/blog/backend.jar
+    - cd backend-legacy && ./gradlew :blog-app:bootJar
+    - sudo cp blog-app/build/libs/backend-legacy.jar /opt/arorms/blog/backend-legacy.jar
     - cd ..
 
     - cd frontend && pnpm install

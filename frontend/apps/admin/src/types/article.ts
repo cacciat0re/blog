@@ -1,6 +1,6 @@
 /**
  * Article types — entity, Vo, summary, translation, mutation requests
- * Mirrors backend Article entity and common responses/requests
+ * Mirrors backend-legacy Article entity and common responses/requests
  */
 import type {Language, ArticleStatus} from './common';
 import type {CategoryVo} from './category';
@@ -8,7 +8,7 @@ import type {TagVo} from './tag';
 
 // --- Translations ---
 
-/** Mirrors backend ArticleTranslationAdminVo: markdown source only, no rendered HTML */
+/** Mirrors backend-legacy ArticleTranslationAdminVo: markdown source only, no rendered HTML */
 export interface ArticleTranslation {
     id: number | null;
     language: Language;
@@ -18,7 +18,7 @@ export interface ArticleTranslation {
     isAiTranslated: boolean;
 }
 
-/** Mirrors backend ArticleTranslationUpsertRequest: content is the rendered HTML —
+/** Mirrors backend-legacy ArticleTranslationUpsertRequest: content is the rendered HTML —
  * send it on the real save; send null for lightweight autosaves (e.g. language-switch)
  * to keep the previously rendered HTML server-side */
 export interface ArticleTranslationUpsertRequest {
@@ -31,8 +31,8 @@ export interface ArticleTranslationUpsertRequest {
     isAiTranslated: boolean;
 }
 
-// --- Article entity (admin detail, mirrors backend Article) ---
-// the backend exposes translations as a language-keyed map on the entity
+// --- Article entity (admin detail, mirrors backend-legacy Article) ---
+// the backend-legacy exposes translations as a language-keyed map on the entity
 // (rendered HTML stays server-side); the rendered `content` field never
 // travels back to the client
 
@@ -48,7 +48,7 @@ export interface Article {
     translations: Partial<Record<Language, ArticleTranslation>>;
 }
 
-// --- List/summary item (mirrors backend ArticleSummaryVo) ---
+// --- List/summary item (mirrors backend-legacy ArticleSummaryVo) ---
 
 export interface ArticleSummaryVo {
     id: number;
@@ -63,7 +63,7 @@ export interface ArticleSummaryVo {
 }
 
 // --- Mutation request (metadata + translations in one body; create: id null,
-// update: id set; mirrors backend ArticleUpsertRequest) ---
+// update: id set; mirrors backend-legacy ArticleUpsertRequest) ---
 
 export interface ArticleUpsertRequest {
     id: number | null;

@@ -1,6 +1,6 @@
 /**
- * Outbound request API — aligns with backend OutboundRequestController @RequestMapping("/api/admin/outbound-request")
- * @see backend/blog-app/src/main/kotlin/cn/arorms/blog/app/controllers/admin/OutboundRequestController.kt
+ * Outbound request API — aligns with backend-legacy OutboundRequestController @RequestMapping("/api/admin/outbound-request")
+ * @see backend-legacy/blog-app/src/main/kotlin/cn/arorms/blog/app/controllers/admin/OutboundRequestController.kt
  */
 import { get, post } from './client';
 import type { OutboundRequestQueryRequest, OutboundRequestVo, PageResponse } from '@/types';

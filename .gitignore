@@ -54,3 +54,5 @@ application-local.properties
 
 *.env
 http-client.private.env.json
+
+backend/config.yml

@@ -1,6 +1,6 @@
 /**
  * Tag types — Vo (public-facing)
- * Mirrors backend common TagVo
+ * Mirrors backend-legacy common TagVo
  */
 
 export interface TagVo {

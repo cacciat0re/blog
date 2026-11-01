@@ -9,7 +9,7 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const DEFAULT_RANGE_DAYS = 14;
 const dateInputClass = 'rounded-full border border-border bg-background px-2.5 py-1 text-[11px] text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20';
 
-/** yyyy-MM-dd in UTC, matching the backend's UTC daily buckets */
+/** yyyy-MM-dd in UTC, matching the backend-legacy's UTC daily buckets */
 const toIsoDate = (time: number) => new Date(time).toISOString().slice(0, 10);
 
 /** Every yyyy-MM-dd from `from` to `to`, inclusive */

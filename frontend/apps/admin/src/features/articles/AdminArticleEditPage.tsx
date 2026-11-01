@@ -196,7 +196,7 @@ export function AdminArticleEditPage() {
         setTagIds((prev) => (prev.includes(tagId) ? prev.filter((t) => t !== tagId) : [...prev, tagId]));
 
     const currentTranslation = translations[activeTab];
-    // no translation-state gating here: the backend resolves the original
+    // no translation-state gating here: the backend-legacy resolves the original
     // translation and fails the request if none exists — surfacing the error
     // is more reliable than second-guessing the autosave state client-side
 

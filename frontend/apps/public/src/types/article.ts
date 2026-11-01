@@ -1,6 +1,6 @@
 /**
  * Article types — public-facing Vo, summary, page response, archive tree
- * Mirrors backend common responses: ArticleVo / ArticleSummaryVo
+ * Mirrors backend-legacy common responses: ArticleVo / ArticleSummaryVo
  */
 import type { Language, ArticleStatus } from './common';
 import type { CategoryVo } from './category';

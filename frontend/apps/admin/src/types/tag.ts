@@ -1,6 +1,6 @@
 /**
  * Tag types — Vo and mutation requests
- * Mirrors backend common TagVo / TagUpsertRequest
+ * Mirrors backend-legacy common TagVo / TagUpsertRequest
  */
 
 // --- Tag Vo (public-facing) ---

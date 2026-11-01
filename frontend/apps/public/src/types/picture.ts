@@ -1,6 +1,6 @@
 /**
  * Picture types — Vo
- * Mirrors backend PictureVo
+ * Mirrors backend-legacy PictureVo
  */
 import type { TagVo } from './tag';
 

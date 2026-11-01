@@ -1,5 +1,5 @@
 /**
- * Admin statistics API — aligns with backend StatisticsAdminController @RequestMapping("/api/admin/statistics")
+ * Admin statistics API — aligns with backend-legacy StatisticsAdminController @RequestMapping("/api/admin/statistics")
  */
 import { get } from './client';
 import type { EntityCountVo } from '@/types';
