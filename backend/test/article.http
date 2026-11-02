@@ -1,0 +1,32 @@
+### Create Article
+POST {{baseUrl}}/api/articles
+Content-Type: application/json
+Accept: application/json
+
+{
+  "slug": "hello-world",
+  "translations": [
+    {
+      "language": "EN",
+      "title": "Hello World",
+      "summary": "An example article",
+      "markdown_content": "# Hello\n\nThis is an example.",
+      "html_content": "<h1>Hello</h1><p>This is an example.</p>",
+      "is_source": true,
+      "is_ai_translate": false
+    },
+    {
+      "language": "ZH",
+      "title": "你好，世界",
+      "summary": "示例文章",
+      "markdown_content": "# 你好\n\n这是一篇示例文章。",
+      "html_content": "<h1>你好</h1><p>这是一篇示例文章。</p>",
+      "is_source": false,
+      "is_ai_translate": true
+    }
+  ]
+}
+
+### Get by ID
+GET {{baseUrl}}/api/articles/1
+Accept: application/json

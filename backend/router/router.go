@@ -27,6 +27,7 @@ func New(handlers Handlers, cfg config.CORSConfig) http.Handler {
 		MaxAge:           3600,
 	}))
 
+	r.Post("/api/articles", handlers.Article.Create)
 	r.Get("/api/articles/{id}", handlers.Article.GetByID)
 
 	return r

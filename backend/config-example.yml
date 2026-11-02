@@ -1,0 +1,16 @@
+server:
+  port: 8083
+
+database:
+  host: localhost
+  port: 5432
+  username: postgres
+  password:
+  name: blog_go_db
+
+cors:
+  allowed_origins:
+    - http://localhost:5173
+    - http://localhost:5174
+    - https://blog.arorms.cn
+    - https://blog-admin.arorms.cn

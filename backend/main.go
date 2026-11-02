@@ -3,19 +3,21 @@ package main
 import (
 	"backend/config"
 	"backend/handler"
-	"backend/models"
-	"backend/repositories"
+	"backend/repository"
 	"backend/router"
-	"backend/services"
+	"backend/service"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func main() {
+	log.SetOutput(os.Stdout)
+
 	cfg, err := config.Load("config.yml")
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
@@ -35,12 +37,12 @@ func main() {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	if err := db.AutoMigrate(&models.Article{}); err != nil {
-		log.Fatalf("Failed to migrate table: %v", err)
-	}
+	//if err := db.AutoMigrate(&model.Article{}); err != nil {
+	//	log.Fatalf("Failed to migrate table: %v", err)
+	//}
 
-	articleRepository := repositories.NewArticleRepository(db)
-	articleService := services.NewArticleService(articleRepository)
+	articleRepository := repository.NewArticleRepository(db)
+	articleService := service.NewArticleService(articleRepository)
 	articleHandler := handler.NewArticleHandler(articleService)
 
 	r := router.New(router.Handlers{Article: articleHandler}, cfg.CORS)
