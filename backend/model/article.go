@@ -2,9 +2,16 @@ package model
 
 import "time"
 
+const (
+	ArticleStatusDraft     = "DRAFT"
+	ArticleStatusPublished = "PUBLISHED"
+	ArticleStatusArchived  = "ARCHIVED"
+)
+
 type Article struct {
 	ID           int64                `json:"id" gorm:"primaryKey;autoIncrement"`
 	Slug         string               `json:"slug" gorm:"column:slug;size:255;not null;uniqueIndex:uq_article_slug"`
+	Status       string               `json:"status" gorm:"column:status;size:20;not null;default:DRAFT;index"`
 	Translations []ArticleTranslation `json:"translations" gorm:"foreignKey:ArticleID"`
 	//CategoryID   int64                `json:"category_id" gorm:"column:category_id;not null"`
 	//Category     *Category            `json:"category" gorm:"foreignKey:CategoryID"`

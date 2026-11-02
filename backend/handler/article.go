@@ -4,6 +4,7 @@ import (
 	"backend/model"
 	"backend/service"
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 	"strconv"
@@ -48,6 +49,10 @@ func (h *ArticleHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 
 	article, err := h.service.GetByID(r.Context(), id)
 	if err != nil {
+		if errors.Is(err, service.ErrArticleNotFound) {
+			http.Error(w, "article not found", http.StatusNotFound)
+			return
+		}
 		log.Printf("failed to get article %d: %v", id, err)
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 		return
@@ -56,5 +61,24 @@ func (h *ArticleHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(article); err != nil {
 		log.Printf("failed to encode article %d: %v", id, err)
+	}
+}
+
+func (h *ArticleHandler) GetBySlug(w http.ResponseWriter, r *http.Request) {
+	slug := chi.URLParam(r, "slug")
+	article, err := h.service.GetBySlug(r.Context(), slug, r.URL.Query().Get("lang"))
+	if err != nil {
+		if errors.Is(err, service.ErrArticleNotFound) {
+			http.Error(w, "article not found", http.StatusNotFound)
+			return
+		}
+		log.Printf("failed to get article by slug %q: %v", slug, err)
+		http.Error(w, "internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(article); err != nil {
+		log.Printf("failed to encode article %q: %v", slug, err)
 	}
 }

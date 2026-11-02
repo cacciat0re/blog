@@ -1,10 +1,11 @@
 ### Create Article
-POST {{baseUrl}}/api/articles
+POST {{baseUrl}}/api/admin/articles
 Content-Type: application/json
 Accept: application/json
 
 {
   "slug": "hello-world",
+  "status": "PUBLISHED",
   "translations": [
     {
       "language": "EN",
@@ -28,5 +29,9 @@ Accept: application/json
 }
 
 ### Get by ID
-GET {{baseUrl}}/api/articles/1
+GET {{baseUrl}}/api/admin/articles/1
+Accept: application/json
+
+### Get by slug (public)
+GET {{baseUrl}}/api/articles/hello-world?lang=zh
 Accept: application/json
