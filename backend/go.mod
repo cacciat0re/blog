@@ -1,4 +1,4 @@
-module backend
+module github.com/cacciat0re/blog-go
 
 go 1.27.3
 

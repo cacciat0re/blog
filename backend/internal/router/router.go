@@ -1,13 +1,14 @@
 package router
 
 import (
-	"backend/config"
-	"backend/handler"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+
+	"github.com/cacciat0re/blog-go/internal/config"
+	"github.com/cacciat0re/blog-go/internal/handler"
 )
 
 type Handlers struct {
@@ -28,9 +29,10 @@ func New(handlers Handlers, cfg config.CORSConfig) http.Handler {
 	}))
 
 	r.Get("/api/articles/{slug}", handlers.Article.GetBySlug)
+	r.Post("/api/articles", handlers.Article.GetAll)
 
 	r.Post("/api/admin/articles", handlers.Article.Create)
-	r.Get("/api/admin/articles/{id}", handlers.Article.GetByID)
+	r.Get("/api/admin/articles/", handlers.Article.GetByID)
 
 	return r
 }

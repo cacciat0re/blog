@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"backend/model"
-	"backend/service"
 	"encoding/json"
 	"errors"
 	"log"
@@ -10,6 +8,10 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+
+	"github.com/cacciat0re/blog-go/internal/dto"
+	"github.com/cacciat0re/blog-go/internal/model"
+	"github.com/cacciat0re/blog-go/internal/service"
 )
 
 type ArticleHandler struct {
@@ -64,15 +66,45 @@ func (h *ArticleHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (h *ArticleHandler) GetAll(w http.ResponseWriter, r *http.Request) {
+	var query dto.ArticleListRequest
+	if err := json.NewDecoder(r.Body).Decode(&query); err != nil {
+		http.Error(w, "invalid request body", http.StatusBadRequest)
+		return
+	}
+	if !dto.IsSupportedLanguage(query.Language) {
+		http.Error(w, "unsupported language", http.StatusBadRequest)
+		return
+	}
+
+	result, err := h.service.ListPublished(r.Context(), query)
+	if err != nil {
+		log.Printf("failed to list published articles: %v", err)
+		http.Error(w, "internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(result); err != nil {
+		log.Printf("failed to encode article list: %v", err)
+	}
+}
+
 func (h *ArticleHandler) GetBySlug(w http.ResponseWriter, r *http.Request) {
 	slug := chi.URLParam(r, "slug")
-	article, err := h.service.GetBySlug(r.Context(), slug, r.URL.Query().Get("lang"))
+	lang := chi.URLParam(r, "lang")
+	if !dto.IsSupportedLanguage(lang) {
+		http.Error(w, "unsupported language", http.StatusBadRequest)
+		return
+	}
+
+	article, err := h.service.GetBySlug(r.Context(), slug, lang)
 	if err != nil {
 		if errors.Is(err, service.ErrArticleNotFound) {
 			http.Error(w, "article not found", http.StatusNotFound)
 			return
 		}
-		log.Printf("failed to get article by slug %q: %v", slug, err)
+		log.Printf("failed to get article %q: %v", slug, err)
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 		return
 	}

@@ -14,7 +14,7 @@ Accept: application/json
       "markdown_content": "# Hello\n\nThis is an example.",
       "html_content": "<h1>Hello</h1><p>This is an example.</p>",
       "is_source": true,
-      "is_ai_translate": false
+      "is_translated_by_ai": false
     },
     {
       "language": "ZH",
@@ -23,7 +23,7 @@ Accept: application/json
       "markdown_content": "# 你好\n\n这是一篇示例文章。",
       "html_content": "<h1>你好</h1><p>这是一篇示例文章。</p>",
       "is_source": false,
-      "is_ai_translate": true
+      "is_translated_by_ai": true
     }
   ]
 }
@@ -32,6 +32,51 @@ Accept: application/json
 GET {{baseUrl}}/api/admin/articles/1
 Accept: application/json
 
-### Get by slug (public)
-GET {{baseUrl}}/api/articles/hello-world?lang=zh
+### GET article
+GET {{baseUrl}}/ZH/articles/hello-world
 Accept: application/json
+
+### List articles (default)
+POST {{baseUrl}}/api/articles/query
+Content-Type: application/json
+Accept: application/json
+
+{
+  "language": "EN",
+  "limit": 20,
+  "offset": 0
+}
+
+### List articles with filters
+POST {{baseUrl}}/api/articles/query
+Content-Type: application/json
+Accept: application/json
+
+{
+  "language": "ZH",
+  "key": "示例",
+  "category": "backend",
+  "tag": "go",
+  "limit": 10,
+  "offset": 0
+}
+
+### List articles next page
+POST {{baseUrl}}/api/articles/query
+Content-Type: application/json
+Accept: application/json
+
+{
+  "language": "EN",
+  "limit": 5,
+  "offset": 5
+}
+
+### List articles with unsupported language (expect 400)
+POST {{baseUrl}}/api/articles/query
+Content-Type: application/json
+Accept: application/json
+
+{
+  "language": "FR"
+}
