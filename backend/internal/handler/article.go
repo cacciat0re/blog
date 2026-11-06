@@ -9,9 +9,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/cacciat0re/blog-go/internal/dto"
-	"github.com/cacciat0re/blog-go/internal/model"
-	"github.com/cacciat0re/blog-go/internal/service"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/dto"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/model"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/service"
 )
 
 type ArticleHandler struct {

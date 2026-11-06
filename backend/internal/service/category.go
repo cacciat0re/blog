@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/cacciat0re/blog-go/internal/dto"
-	"github.com/cacciat0re/blog-go/internal/repository"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/dto"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/repository"
 )
 
 var ErrCategoryNotFound = errors.New("category not found")

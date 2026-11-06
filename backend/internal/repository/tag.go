@@ -5,7 +5,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/cacciat0re/blog-go/internal/dto"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/dto"
 )
 
 type ITagRepository interface {

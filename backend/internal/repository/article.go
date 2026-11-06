@@ -8,8 +8,8 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/cacciat0re/blog-go/internal/dto"
-	"github.com/cacciat0re/blog-go/internal/model"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/dto"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/model"
 )
 
 var ErrNotFound = errors.New("record not found")

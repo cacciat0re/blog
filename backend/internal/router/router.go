@@ -7,8 +7,8 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 
-	"github.com/cacciat0re/blog-go/internal/config"
-	"github.com/cacciat0re/blog-go/internal/handler"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/config"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/handler"
 )
 
 type Handlers struct {

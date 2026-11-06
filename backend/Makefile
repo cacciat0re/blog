@@ -1,4 +1,4 @@
-.PHONY: run build build-debug fmt tidy clean migrate-up migrate-down
+.PHONY: run build build-debug fmt tidy clean migrate-up migrate-down migrate-version
 
 run:
 	go run ./cmd/server
@@ -16,7 +16,10 @@ clean:
 	rm -rf bin
 
 migrate-up:
-	migrate -path migrations -database "postgres://postgres:$$DB_PASSWORD@localhost:5432/blog_go_db?sslmode=disable" up
+	go run ./cmd/migrate -d up
 
 migrate-down:
-	migrate -path migrations -database "postgres://postgres:$$DB_PASSWORD@localhost:5432/blog_go_db?sslmode=disable" down 1
+	go run ./cmd/migrate -d down
+
+migrate-version:
+	go run ./cmd/migrate -v

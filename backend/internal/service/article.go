@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cacciat0re/blog-go/internal/dto"
-	"github.com/cacciat0re/blog-go/internal/model"
-	"github.com/cacciat0re/blog-go/internal/repository"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/dto"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/model"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/repository"
 )
 
 var ErrArticleNotFound = errors.New("article not found")

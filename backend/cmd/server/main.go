@@ -9,11 +9,11 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"github.com/cacciat0re/blog-go/internal/config"
-	"github.com/cacciat0re/blog-go/internal/handler"
-	"github.com/cacciat0re/blog-go/internal/repository"
-	"github.com/cacciat0re/blog-go/internal/router"
-	"github.com/cacciat0re/blog-go/internal/service"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/config"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/handler"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/repository"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/router"
+	"gitlab.arorms.cn/arorms/applications/blog/internal/service"
 )
 
 func main() {
